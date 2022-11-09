@@ -188,40 +188,102 @@
                       <div class="col-md-6">
                         <div class="form-wrap form-wrap-validation">
                           <label class="form-label-outside" for="form-1-name">Primeiro nome</label>
-                          <input class="form-input" id="form-1-name" type="text" name="name" data-constraints="@Required"/>
+                          <input class="form-input" id="nameInp" type="text" name="name" data-constraints="@Required"/>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-wrap form-wrap-validation">
                           <label class="form-label-outside" for="form-1-last-name">Sobrenome</label>
-                          <input class="form-input" id="form-1-last-name" type="text" name="last-name" data-constraints="@Required"/>
+                          <input class="form-input" id="last-nameInp" type="text" name="last-name" data-constraints="@Required"/>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-wrap form-wrap-validation">
                           <label class="form-label-outside" for="form-1-email">E-mail</label>
-                          <input class="form-input" id="form-1-email" type="email" name="email" data-constraints="@Email @Required"/>
+                          <input class="form-input" id="emailInp" type="email" name="email" data-constraints="@Email @Required"/>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-wrap form-wrap-validation">
                           <label class="form-label-outside" for="form-1-phone">Telefone/Celular</label>
-                          <input class="form-input" id="form-1-phone" type="text" name="phone" data-constraints="@Numeric @Required"/>
+                          <input class="form-input" id="phoneInp" type="text" name="phone" data-constraints="@Numeric @Required"/>
                         </div>
                       </div>
                       <div class="col-sm-12">
                         <div class="form-wrap form-wrap-validation">
                           <label class="form-label-outside" for="form-1-message">Mensagem/Sugestão</label>
-                          <textarea class="form-input" id="form-1-message" name="message" data-constraints="@Required"></textarea>
+                          <textarea class="form-input" id="messageInp" name="message" data-constraints="@Required"></textarea>
                         </div>
                       </div>
                       <div class="col-sm-12 offset-custom-1">
                         <div class="form-button">
-                          <button class="button button-secondary button-nina" type="submit">Enviar</button>
+                          <button class="button button-secondary button-nina" id="subbtn" type="submit">Enviar</button>
                         </div>
                       </div>
                     </div>
                   </form>
+                  <script type="module">
+                    // Import the functions you need from the SDKs you need
+                    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
+                    import{getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
+                    // TODO: Add SDKs for Firebase products that you want to use
+                    // https://firebase.google.com/docs/web/setup#available-libraries
+                  
+                    // Your web app's Firebase configuration
+                    const firebaseConfig = {
+                      apiKey: "AIzaSyD1G4g0o8aWyczABFuzCRL417hokH9C9Ik",
+                      authDomain: "ninachat-a7bfd.firebaseapp.com",
+                      projectId: "ninachat-a7bfd",
+                      storageBucket: "ninachat-a7bfd.appspot.com",
+                      messagingSenderId: "364307515377",
+                      appId: "1:364307515377:web:3c2f1897e80a643844e650"
+                    };
+                  
+                    // Initialize Firebase
+                    const app = initializeApp(firebaseConfig);
+
+                    const db = getDatabase();
+
+                    const name = document.getElementById('nameInp');
+                    const lastname = document.getElementById('last-nameInp');
+                    const email = document.getElementById('emailInp');
+                    const phone = document.getElementById('phoneInp');
+                    const message = document.getElementById('messageInp');
+                    const submit = document.getElementById('subbtn');
+       
+                    function Empty(str){
+                    return str === null || str.match(/^ *$/) !== null;
+                  }
+
+                  function RegisterUser(){
+                
+                  const dbRef = ref(db);
+
+                  get(child(dbRef, "Mensagens/"+ name.value)).then((snapshot)=>{
+                      
+                          set(ref(db, "Mensagens/"+ name.value),
+                          {
+                              Nome: name.value,
+                              Sobrenome: lastname.value,
+                              Email: email.value,
+                              Telefone: phone.value,
+                              Mensagem: message.value
+
+                          })
+                          .then(()=>{
+                              alert("Mesagem enviada com sucesso!");
+                          })
+                          .catch((error)=>{
+                              alert("error"+ error);
+                          })
+
+                  });
+              }
+                  //EVENTOS 
+
+                  submit.addEventListener('click', RegisterUser); 
+
+                  </script>
                 </div>
               </div>
             </div>
@@ -253,8 +315,8 @@
       </footer>
     </div>
     <!-- Global Mailform Output-->
-    <div class="snackbars" id="form-output-global"> </div>
-    <!-- Javascript-->
+    <!--<div class="snackbars" id="form-output-global"> </div>
+     Javascript-->
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
   </body>
