@@ -4047,6 +4047,12 @@ textarea.form-input.form-input-lg {
 * + .button.form-button,
 * + .form-button {
 	margin-top: 20px;
+	display: inline-block;
+}
+
+.clear-button {
+	margin-top: 50px;
+	display: inline-block;
 }
 
 .form-label,
