@@ -17,6 +17,8 @@
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"> </script>
 		<![endif]--> 
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <!-- Page preloader-->
@@ -218,17 +220,19 @@
                       <div class="col-sm-12 offset-custom-1">
                         <div class="form-button">
                           <button class="button button-secondary button-nina" id="subbtn" type="submit">Enviar</button>
+                          <div class="clear-button">
+                            <button class="button button-secondary button-nina" id="clear" type="reset">Limpar</button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </form>
+                  <script src="sweetalert2.all.min.js"></script>
                   <script type="module">
                     // Import the functions you need from the SDKs you need
                     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
                     import{getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
-                    // TODO: Add SDKs for Firebase products that you want to use
-                    // https://firebase.google.com/docs/web/setup#available-libraries
-                  
+                   
                     // Your web app's Firebase configuration
                     const firebaseConfig = {
                       apiKey: "AIzaSyD1G4g0o8aWyczABFuzCRL417hokH9C9Ik",
@@ -254,9 +258,23 @@
                     function Empty(str){
                     return str === null || str.match(/^ *$/) !== null;
                   }
-
+                 
+                  function Validation(){
+                    if(Empty(name.value)|| Empty(email.value)||Empty(lastname.value)||Empty(phone.value) || Empty(message.value)){
+                      Swal.fire({
+                              title: 'Ops..Falha!',
+                              text: 'Preencha todos os dados, por favor!',
+                              icon: 'warning',
+                              confirmButtonText: 'OK'
+                          });
+                        return false;
+                    }
+                  }
                   function RegisterUser(){
-                
+                    if(!Validation()){
+                        return;
+                      };
+                    
                   const dbRef = ref(db);
 
                   get(child(dbRef, "Mensagens/"+ name.value)).then((snapshot)=>{
@@ -271,14 +289,25 @@
 
                           })
                           .then(()=>{
-                              alert("Mesagem enviada com sucesso!");
+                            Swal.fire({
+                              title: 'Sucesso!',
+                              text: 'Mensagem enviada com sucesso',
+                              icon: 'success',
+                              confirmButtonText: 'OK'
+                          });
                           })
                           .catch((error)=>{
-                              alert("error"+ error);
+                            Swal.fire({
+                              title: 'Falha!',
+                              text: 'Ops! Houve um erro ao enviar sua mensagem',
+                              icon: 'error',
+                              confirmButtonText: 'OK'
+                          });
                           })
 
                   });
               }
+
                   //EVENTOS 
 
                   submit.addEventListener('click', RegisterUser); 
