@@ -17,15 +17,24 @@ function WordSearchController(gameId, listId, solveId, newGameId, instructionsId
 
 	//um objeto contendo vários tema/palavras para o jogo
 	var searchTypes = {
-//PALAVRAS DO CAÇA PALAVRAS 
+	//PALAVRAS DO CAÇA PALAVRAS 
 		"Char!": [["bug", "drive"],
 			["string", "hardware"], 
 			["software","void"],
-			["CPU","Mouse"]]
+			["CPU","mouse"],
+			["cache","backup"],
+			["download","input"],
+			["upgrade","wireless"],
+			["password","cloud"],
+			["loop","ip"],
+			["cooler","delay"],
+			["firewall","USB"],
+			["bios","HD"],
+			["byte","load"],
+			["output","VPN"],
+			["browser","crack"]]
 
 	};
-	
-
 	
 	//variáveis para armazenar a lógica do jogo e sua visão
 	var game;
@@ -54,7 +63,7 @@ function WordSearchController(gameId, listId, solveId, newGameId, instructionsId
 		updateHeadings(mainInstructions, searchTypesArray[randIndex]);
 
 		//executa a lógica do jogo usando um close da lista de palavras (para evitar que o objeto real seja alterado)
-		game = new WordSearchLogic(gameId, listOfWords.slice(0,8));
+		game = new WordSearchLogic(gameId, listOfWords.slice(0,15));
 		//game2 = new WordSearchLogic(gameId, listOfWords.splice(13,18));
 		//game3 = new WordSearchLogic(gameId, listOfWords.splice(19,24));
 		//game4 = new WordSearchLogic(gameId, listOfWords.splice(25,30));
